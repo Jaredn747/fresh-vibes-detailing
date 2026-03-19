@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Fresh Vibes Detailing</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css"> 
+    
+    <style>
+        /* Specific tweaks just for this page */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        #gallery-page {
+            flex: 1;
+            padding-top: 50px;
+            padding-bottom: 80px;
+            background-color: rgba(0, 0, 0, 0.85); /* Dark overlay */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="images/logo.png" alt="Fresh Vibes Logo" class="nav-logo">
+            </a>
+        </div>
+
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            
+            <li><a href="gallery.html" style="color: #40E0D0;">Gallery</a></li>
+            
+            <li><a href="index.html#contact" class="btn-call">Call (714) 712-0371</a></li>
+        </ul>
+    </nav>
+
+    <section id="gallery-page">
+        <div class="gallery-header">
+            <h2>Our <span class="highlight">Work</span></h2>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/gallery/gallery1.png" alt="Interior Detail Job">
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/gallery2.png" alt="Exterior Foam Wash">
+            </div>
+            <div class="gallery-item">
+                <img src="images/gallery/gallery3.png" alt="Wheel and Tire Detail">
+            </div>
+            
+            </div>
+    </section>
+
+    <footer id="contact">
+        <h2>Ready for a Fresh Vibe?</h2>
+        <a href="tel:7147120371" class="footer-phone">(714) 712 0371</a>
+        <p class="copyright">&copy; 2025 Fresh Vibes Mobile Detailing</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

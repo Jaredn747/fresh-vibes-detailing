@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book - Fresh Vibes Detailing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body class="booking-body">
+
+    <div id="login-section" class="booking-container">
+        <div class="icon-circle">📞</div>
+        <h1>Welcome back!</h1>
+        <p>Booked with Fresh Vibes Detailing before? Enter your phone number.</p>
+        <div class="login-input-group">
+            <select style="width: 35%;"><option>+1 (US)</option></select>
+            <input type="tel" placeholder="(123) 456-7890" style="flex: 1;">
+        </div>
+        <button class="btn-full btn-primary">Check Phone Number</button>
+        <div class="divider">OR</div>
+        <button class="btn-white" onclick="goToGrid()">Continue as Guest</button>
+        <a href="index.html" class="footer-link">Back to Home</a>
+    </div>
+
+    <div id="vehicle-grid-section" class="booking-container" style="display: none;">
+        <button class="btn-back" onclick="goToLogin()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <h2>Select Your Vehicle</h2>
+        <p>Choose the category that best describes your vehicle.</p>
+        <div class="vehicle-grid">
+            <div class="vehicle-card" onclick="goToDetails('Sedan')">
+                <div class="vehicle-icon"><i class="fa-solid fa-car-side"></i></div>
+                <div class="vehicle-title">Sedan / Coupe</div>
+                <div class="vehicle-desc">2-door or 4-door cars</div>
+            </div>
+            <div class="vehicle-card" onclick="goToDetails('SUV')">
+                <div class="vehicle-icon"><i class="fa-solid fa-car"></i></div>
+                <div class="vehicle-title">Small SUV</div>
+                <div class="vehicle-desc">Crossovers, Compact SUVs</div>
+            </div>
+            <div class="vehicle-card" onclick="goToDetails('Truck')">
+                <div class="vehicle-icon"><i class="fa-solid fa-truck-pickup"></i></div>
+                <div class="vehicle-title">Truck / Large SUV</div>
+                <div class="vehicle-desc">F-150, Tahoe, 3-Row SUVs</div>
+            </div>
+            <div class="vehicle-card" onclick="goToDetails('Van')">
+                <div class="vehicle-icon"><i class="fa-solid fa-van-shuttle"></i></div>
+                <div class="vehicle-title">Minivan / Van</div>
+                <div class="vehicle-desc">Odyssey, Transit, Sprinter</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="vehicle-details-section" class="booking-container" style="display: none;">
+        <button class="btn-back" onclick="backToGrid()"><i class="fa-solid fa-arrow-left"></i> Vehicle Details</button>
+        <p>Tell us about your vehicle.</p>
+        <div class="form-row">
+            <div class="form-group"><label>Make</label><select id="vehicleMake" onchange="updateModels()"><option>Select make</option></select></div>
+            <div class="form-group"><label>Model</label><select id="vehicleModel" onchange="enableContinue()"><option>Select make first</option></select></div>
+        </div>
+        <div class="warning-box"><i class="fa-solid fa-circle-exclamation"></i> Please select both make and model to continue.</div>
+        <button id="btnContinueDetails" class="btn-full btn-disabled" onclick="goToServices()" disabled>Continue with This Vehicle</button>
+    </div>
+
+    <div id="service-menu-section" class="booking-container" style="display: none;">
+        <button class="btn-back" onclick="backToDetails()"><i class="fa-solid fa-arrow-left"></i> Category</button>
+        <p style="text-align:left;">Selecta  service.</p>
+
+        <h3 style="text-align:left; color:#FF6B00; margin: 20px 0 10px;">Wash & Detail</h3>
+        <div class="service-card" onclick="handleServiceClick('Exterior')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-spray-can-sparkles"></i></div><div class="service-info"><h3>Maintenance Wash</h3><span>Starting at $60</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Interior')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-chair"></i></div><div class="service-info"><h3>Maintenance Interior</h3><span>Starting at $150</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Full')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-car-side"></i></div><div class="service-info"><h3>Full Interior Detail</h3><span>Starting at $250</span></div></div>
+        </div>
+
+        <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Protection Packages</h3>
+        <div class="service-card" onclick="handleServiceClick('3Month')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-shield-halved"></i></div><div class="service-info"><h3>3-Month Ceramic Sealant</h3><span>Starting at $175</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('6Month')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-droplet"></i></div><div class="service-info"><h3>6-Month Hybrid SiO2 Wax</h3><span>Starting at $250</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('PolishWax')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="service-info"><h3>Polish & Wax (6 Month)</h3><span>Starting at $325</span></div></div>
+        </div>
+
+        <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Ceramic Coatings</h3>
+        <div class="service-card" onclick="handleServiceClick('1Year')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gem"></i></div><div class="service-info"><h3>1 Year Ceramic Coating</h3><span>Starting at $600</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('3Year')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-diamond"></i></div><div class="service-info"><h3>3 Year Ceramic Coating</h3><span>Starting at $800</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('6Year')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-crown"></i></div><div class="service-info"><h3>6 Year Ceramic Coating</h3><span>Starting at $1200</span></div></div>
+        </div>
+
+        <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Specialty Services</h3>
+        <div class="service-card" onclick="handleServiceClick('Headlight')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-regular fa-lightbulb"></i></div><div class="service-info"><h3>Headlight Restoration</h3><span>Starting at $125</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Engine')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gear"></i></div><div class="service-info"><h3>Engine Bay Cleaning</h3><span>Starting at $100</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Windshield')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wind"></i></div><div class="service-info"><h3>Windshield Ceramic</h3><span>Starting at $100</span></div></div>
+        </div>
+        
+        <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Additional Services</h3>
+        <div class="service-card" onclick="handleServiceClick('Tint')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-layer-group"></i></div><div class="service-info"><h3>Window Tinting</h3><span>Call for Price</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Audio')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-music"></i></div><div class="service-info"><h3>Car Audio/Screen</h3><span>Call for Price</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Wrap')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-palette"></i></div><div class="service-info"><h3>Car Wrapping</h3><span>Call for Price</span></div></div>
+        </div>
+        <div class="service-card" onclick="handleServiceClick('Upholstery')">
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-couch"></i></div><div class="service-info"><h3>Upholstery Repair</h3><span>Call for Price</span></div></div>
+        </div>
+    </div>
+
+    <div id="condition-section" class="booking-container" style="display: none;">
+        <button class="btn-back" onclick="backToServices()"><i class="fa-solid fa-arrow-left"></i> Services</button>
+        <h2>Condition Check</h2>
+        <div class="condition-group">
+            <h3>Stains?</h3>
+            <div id="warn-stains" class="warning-box-yellow" style="display:none;">+$40 Fee</div>
+            <div class="toggle-row"><button class="btn-toggle" onclick="selectCondition('stains',true,this)">Yes</button><button class="btn-toggle selected" onclick="selectCondition('stains',false,this)">No</button></div>
+        </div>
+        <div class="condition-group">
+            <h3>Pet Hair?</h3>
+            <div id="warn-hair" class="warning-box-yellow" style="display:none;">+$30 Fee</div>
+            <div class="toggle-row"><button class="btn-toggle" onclick="selectCondition('hair',true,this)">Yes</button><button class="btn-toggle selected" onclick="selectCondition('hair',false,this)">No</button></div>
+        </div>
+        <button class="btn-full btn-primary" onclick="submitCondition()">Continue</button>
+    </div>
+
+    <div id="final-service-section" class="booking-container" style="display: none;">
+        <button class="btn-back" onclick="backFromFinal()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <h2 id="final-service-title">Service</h2>
+        <div class="final-card">
+            <div class="final-card-header">
+                <div class="final-card-img"><i class="fa-solid fa-car-sparkle"></i></div>
+                <div><h3 id="card-service-name">Service Name</h3><div class="final-meta"><span id="card-duration">1hr</span> <span class="final-price" id="card-price">$0</span></div></div>
+            </div>
+            <div class="final-card-body"><p id="card-desc-short">Desc</p></div>
+            <div class="final-card-footer">
+                <div class="final-actions">
+                    <button class="btn-outline" onclick="openDetailsModal()">Details</button>
+                    <button class="btn-primary-small" onclick="goToContactInfo()">Select</button>
+                </div>
+                <div class="big-price" id="footer-price">$0</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact-info-section" class="booking-container contact-layout" style="display: none;">
+        <button class="btn-back" onclick="backFromContact()"><i class="fa-solid fa-arrow-left"></i> Service</button>
+        
+        <div class="contact-header">
+            <div class="contact-icon-circle"><i class="fa-regular fa-user"></i></div>
+            <h2>Complete Your Information</h2>
+            <p>We need some basic information to finalize your booking and send you updates.</p>
+        </div>
+
+        <form>
+            <div class="form-row">
+                <div class="form-group-labeled">
+                    <label>First Name <span class="required-star">*</span></label>
+                    <input type="text" placeholder="John">
+                </div>
+                <div class="form-group-labeled">
+                    <label>Last Name <span class="required-star">*</span></label>
+                    <input type="text" placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="form-group-full-labeled">
+                <label>Phone Number <span class="required-star">*</span></label>
+                <input type="tel" placeholder="(123) 456-7890">
+                <div class="helper-text">We'll send a verification code to confirm your number.</div>
+            </div>
+            
+            <div class="form-group-full-labeled">
+                <label>Email Address (Optional)</label>
+                <input type="email" placeholder="john@example.com">
+                <div class="helper-text">Optional - for receipt delivery and future bookings.</div>
+            </div>
+
+            <button type="button" class="btn-full btn-primary" style="margin-top: 20px;">Continue to Verification</button>
+
+            <div class="required-footer-box">
+                <span class="required-star">*</span> Required fields
+            </div>
+        </form>
+    </div>
+
+    <div id="details-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Details</h3><span class="close-modal" onclick="closeDetailsModal()">&times;</span></div>
+            <div class="modal-body" id="modal-full-text"></div>
+            <button class="btn-full btn-primary" onclick="closeDetailsModal()">Close</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+
+    <!-- Service Descriptions as HTML Templates (hidden) -->
+    <template id="desc-Exterior">
+        <p><strong>Exterior:</strong></p>
+        <ul>
+            <li>PH neutral wash</li>
+            <li>Deionized water to assure no water spots are left behind</li>
+            <li>Spray on wax to offer a bit of paint protection til next wash</li>
+            <li>Cleaning of tires and wheels (face & drum)</li>
+            <li>Door jambs cleaned</li>
+            <li>Windows and mirrors cleaned</li>
+            <li>Tire shine</li>
+        </ul>
+        <p><strong>Interior:</strong></p>
+        <ul>
+            <li>Wiped down of all surfaces (leather seats also get wiped down to lift minor stains)</li>
+            <li>Vacuum including trunk and frunk (if applicable)</li>
+            <li>Complementary interior car scent</li>
+        </ul>
+        <p><strong>Pricing:</strong></p>
+        <ul>
+            <li>$60 - Sedan / Coupe</li>
+            <li>$70 - SUV / Crossovers / Small Trucks</li>
+            <li>$80 - 3rd Row SUV / Vans / Full Size Pickups</li>
+        </ul>
+    </template>
+    <template id="desc-Interior">
+        <p><strong>Maintenance wash package including:</strong></p>
+        <ul>
+            <li>Deep Vacuum</li>
+            <li>Plastics, Vinyl, and Leathers Deep Cleaned and scrubbed</li>
+            <li>Steam Clean & Sanitization: Disinfects surfaces, and breaks down stubborn grime</li>
+            <li>Air Vents Steamed to eliminate odors</li>
+            <li>Dressing of Exterior Plastics</li>
+            <li>Spot Cleaning on Upholstery to remove light stains</li>
+            <li>Door Jambs degreased and cleaned</li>
+            <li>Exterior Spray on Wax</li>
+        </ul>
+    </template>
+    <template id="desc-Full">
+        <p><strong>Everything included in Maintenance Detail package plus:</strong></p>
+        <ul>
+            <li>Vents & Crevices Detailed</li>
+            <li>Upholstery (Carpets and seats) Shampoo and Scrubbing</li>
+            <li>Seat and Carpet Extraction</li>
+            <li>Leather Seat cleaning & Conditioning<br>
+            <small>Conditioning Leather helps ensure a long healthy life to your leather, preventing cracking and adding UV protection</small></li>
+            <li>Exterior Plastic Dressing</li>
+            <li>Spray on Wax</li>
+        </ul>
+    </template>
+    <template id="desc-3Month">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li><strong>3 Month duration Ceramic sealant:</strong> Fully seals your paint adding a hydrophobic and glossy SiO2 protective layer giving it an intense gloss</li>
+            <li>Condition exterior Plastic Trim</li>
+            <li>Complimentary interior Vacuum</li>
+            <li>Complimentary interior wipe down of surfaces</li>
+        </ul>
+    </template>
+    <template id="desc-6Month">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li><strong>6 Month Duration Hybrid Si02 Wax:</strong> Offering the best Hybrid Ceramic Technology Available, Incredibly Deep rich gloss, Water beading effect leaving a smooth slick surface protecting from water stains, bird droppings, tree sap and other environmental factors</li>
+            <li>Safe on paint and Paint protective Films</li>
+        </ul>
+    </template>
+    <template id="desc-PolishWax">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li><strong>Paint enhancement full car paint Polish:</strong></li>
+            <li>Swirl Correction</li>
+            <li>Light scratch Removal</li>
+            <li>6 Month Duration High Gloss wax</li>
+        </ul>
+    </template>
+    <template id="desc-1Year">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li>Full car paint Polish</li>
+            <li>Swirl Correction</li>
+            <li>Light scratch Removal</li>
+            <li><strong>1 year Duration ceramic coating</strong></li>
+            <li>Complimentary Interior vacuum & Wipe down</li>
+        </ul>
+    </template>
+    <template id="desc-3Year">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li>Full car paint Polish</li>
+            <li>Swirl Correction</li>
+            <li>Light scratch Removal</li>
+            <li><strong>3 year Duration ceramic coating</strong></li>
+            <li><strong>Ceramic coated wheels</strong></li>
+            <li>Complimentary Interior vacuum & Wipe down</li>
+        </ul>
+    </template>
+    <template id="desc-6Year">
+        <ul>
+            <li><strong>Pre Wash:</strong> Breaks down and removes tough Organic Grime, oils and bugs</li>
+            <li>Wheels & Tires get deep cleaned</li>
+            <li>Door Jambs Degreased and cleaned</li>
+            <li>Windows and Mirrors Cleaned</li>
+            <li>Exhaust Tips cleaned</li>
+            <li><strong>Tire Sealant:</strong> Adding a rich dark look to your tires lasting up to 3 months (Durability Varies depending various conditions)</li>
+            <li><strong>9.5 PH Stripper soap wash:</strong> Removes any prior waxes or sealants ensure new layer will stick</li>
+            <li><strong>Iron Remover:</strong> Chemically dissolves embedded iron particles on wheels and paint preventing rust and stains</li>
+            <li><strong>Clay Bar Treatment:</strong> Removes embedded contaminants such as tree sap and industrial fallout from cars paint leaving surface smooth as glass allowing new layer of protection to properly heal on surface</li>
+            <li>Full car Polish, Paint enhancement</li>
+            <li>Swirl Correction</li>
+            <li>Light scratch Removal</li>
+            <li><strong>6 year Duration ceramic coating</strong></li>
+            <li><strong>Wheels Ceramic Coated</strong></li>
+            <li><strong>Windows Ceramic Coated</strong></li>
+            <li>Complimentary Interior Detail</li>
+        </ul>
+        <p>Ceramic coatings is a liquid layer that chemically binds with your cars paint, offer superior protection against UV rays, Dirt, Oxidation, tree sap, Bird Droppings, chemicals and water.</p>
+        <p>Provides enhanced rich gloss making your paint fully hydrophobic making cleaning easier and protecting from micro scratches.</p>
+    </template>
+    <template id="desc-Headlight">
+        <p>With Time UV rays, Road Debris and Oxidation can have your headlights looking yellow, cloudy and dim drastically reducing your visibility and look of your car! Restore your headlights today!</p>
+        <p>Our Headlight treatment will remove the yellowing and clouding of your headlights restoring the original clear look while adding a UV Ray sealant making it weather resistant and protecting it from yellowing!</p>
+    </template>
+    <template id="desc-Engine">
+        <p>Cleaning your engine can help prevent corrosion and rust, improve cooling efficiency, easier leak detection and restoring original clean look.</p>
+    </template>
+    <template id="desc-Windshield">
+        <ul>
+            <li><strong>Clay Bar treatment:</strong> Removes embedded contaminants such as bugs, tar, deposits.</li>
+            <li>Makes glass dramatically clearer, smoother wiper performance, better rain beading.</li>
+            <li>Super hydrophobic layer repelling water, bugs and grime.</li>
+            <li>Improved visibility in the rain.</li>
+        </ul>
+    </template>
+    <template id="desc-Tint">
+        <p>Window Tinting - Call for pricing</p>
+    </template>
+    <template id="desc-Audio">
+        <p>Car audio screen replacement - Call for pricing</p>
+    </template>
+    <template id="desc-Wrap">
+        <p>Car wrapping - Call for pricing</p>
+    </template>
+    <template id="desc-Upholstery">
+        <p>Upholstery Repair - Call for pricing</p>
+    </template>
+</body>
+</html>

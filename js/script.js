@@ -243,3 +243,28 @@ function backFromFinal() {
 
 function openDetailsModal() { document.getElementById('details-modal').style.display = 'flex'; }
 function closeDetailsModal() { document.getElementById('details-modal').style.display = 'none'; }
+
+// Mobile hamburger menu: toggle `.nav-links.active` when `#mobile-menu` is clicked
+document.addEventListener('DOMContentLoaded', function () {
+    // Toggle handler for one or more #mobile-menu buttons (present on multiple pages)
+    document.querySelectorAll('#mobile-menu').forEach(function(toggle) {
+        toggle.addEventListener('click', function () {
+            const navbar = toggle.closest('.navbar') || document.querySelector('.navbar');
+            if (!navbar) return;
+            const links = navbar.querySelector('.nav-links');
+            if (!links) return;
+            links.classList.toggle('active');
+        });
+    });
+
+    // Close mobile menu when a nav link is clicked (prevents it staying open)
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+        link.addEventListener('click', function () {
+            const navbar = link.closest('.navbar') || document.querySelector('.navbar');
+            if (!navbar) return;
+            const links = navbar.querySelector('.nav-links');
+            if (!links) return;
+            if (links.classList.contains('active')) links.classList.remove('active');
+        });
+    });
+});

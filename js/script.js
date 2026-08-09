@@ -123,6 +123,86 @@ const serviceDetails = {
 
 let currentServiceSelection = "";
 
+function isValidPhoneNumber(phone) {
+    const digitsOnly = phone.replace(/\D/g, '');
+    return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+}
+
+function setFieldState(input, messageEl, message) {
+    const hasError = Boolean(message);
+    if (input) {
+        input.classList.toggle('is-invalid', hasError);
+        input.setAttribute('aria-invalid', hasError ? 'true' : 'false');
+    }
+    if (messageEl) {
+        messageEl.textContent = message;
+    }
+}
+
+function clearQuoteFormFeedback() {
+    const fields = [
+        { input: document.getElementById('quote-name'), messageEl: document.getElementById('name-error') },
+        { input: document.getElementById('quote-phone'), messageEl: document.getElementById('phone-error') },
+        { input: document.getElementById('quote-service'), messageEl: document.getElementById('service-error') }
+    ];
+
+    fields.forEach(function(field) {
+        setFieldState(field.input, field.messageEl, '');
+    });
+
+    const status = document.getElementById('quote-form-status');
+    if (status) {
+        status.textContent = '';
+        status.classList.remove('has-error');
+    }
+}
+
+function handleQuoteFormSubmit(event) {
+    event.preventDefault();
+
+    const nameInput = document.getElementById('quote-name');
+    const phoneInput = document.getElementById('quote-phone');
+    const serviceSelect = document.getElementById('quote-service');
+    const nameError = document.getElementById('name-error');
+    const phoneError = document.getElementById('phone-error');
+    const serviceError = document.getElementById('service-error');
+    const status = document.getElementById('quote-form-status');
+
+    let isFormValid = true;
+
+    clearQuoteFormFeedback();
+
+    if (!nameInput.value.trim()) {
+        setFieldState(nameInput, nameError, 'Please enter your name.');
+        isFormValid = false;
+    }
+
+    if (!isValidPhoneNumber(phoneInput.value.trim())) {
+        setFieldState(phoneInput, phoneError, 'Please enter a valid phone number.');
+        isFormValid = false;
+    }
+
+    if (!serviceSelect.value) {
+        setFieldState(serviceSelect, serviceError, 'Please select a service.');
+        isFormValid = false;
+    }
+
+    if (!isFormValid) {
+        if (status) {
+            status.textContent = 'Please fix the highlighted fields and try again.';
+            status.classList.add('has-error');
+        }
+        return;
+    }
+
+    if (status) {
+        status.textContent = "We'll get back to you within 30 minutes!";
+        status.classList.remove('has-error');
+    }
+
+    event.target.reset();
+}
+
 // 3. PAGE LOAD
 window.onload = function() {
     const makeSelect = document.getElementById('vehicleMake');
@@ -267,4 +347,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (links.classList.contains('active')) links.classList.remove('active');
         });
     });
+
+    const quoteForm = document.getElementById('quote-form');
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', handleQuoteFormSubmit);
+    }
 });

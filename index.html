@@ -105,16 +105,20 @@
             <div class="hero-form-card">
                 <h3>Get A Free Quote</h3>
                 <p>Fast response within 30 mins</p>
-                <form>
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                    <select>
+                <form id="quote-form" novalidate>
+                    <input id="quote-name" name="name" type="text" placeholder="Your Name" required>
+                    <div class="field-message" id="name-error" aria-live="polite"></div>
+                    <input id="quote-phone" name="phone" type="tel" placeholder="Phone Number" required>
+                    <div class="field-message" id="phone-error" aria-live="polite"></div>
+                    <select id="quote-service" name="service" required>
                         <option value="" disabled selected>Choose Service</option>
                         <option value="interior">Interior Detail ($100+)</option>
                         <option value="exterior">Exterior Detail ($80+)</option>
                         <option value="full">Full Detail Package ($160+)</option>
                     </select>
+                    <div class="field-message" id="service-error" aria-live="polite"></div>
                     <button type="submit" class="cta-button full-width">Send Request</button>
+                    <p class="form-status" id="quote-form-status" aria-live="polite"></p>
                 </form>
             </div>
         </div>

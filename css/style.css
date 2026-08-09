@@ -183,6 +183,10 @@ h1, h2, h3, .logo-text, .price, .footer-phone, .step-icon {
 .hero-form-card h3 { font-size: 2.5rem; color: #40E0D0; -webkit-text-stroke: 1px black; margin-bottom: 10px;}
 .hero-form-card p { color: #666; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
 .hero-form-card input, .hero-form-card select { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ccc; border-radius: 5px; background: #f9f9f9; }
+.hero-form-card input.is-invalid, .hero-form-card select.is-invalid { border-color: #d93025; background: #fff5f5; }
+.field-message { min-height: 18px; margin: -8px 0 12px; color: #d93025; font-size: 0.85rem; font-weight: 700; text-align: left; }
+.form-status { min-height: 22px; margin-top: 14px; color: #0f8a5f; font-weight: 800; text-align: center; }
+.form-status.has-error { color: #d93025; }
 .cta-button { width: 100%; background-color: #FFD700; color: black; border: none; padding: 15px; font-weight: 800; font-size: 1.5rem; border-radius: 5px; cursor: pointer; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 .cta-button:hover { background-color: #e6c200; }
 

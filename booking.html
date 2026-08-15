@@ -65,7 +65,7 @@
 
     <div id="service-menu-section" class="booking-container" style="display: none;">
         <button class="btn-back" onclick="backToDetails()"><i class="fa-solid fa-arrow-left"></i> Category</button>
-        <p style="text-align:left;">Selecta  service.</p>
+        <p style="text-align:left;">Select a service.</p>
 
         <h3 style="text-align:left; color:#FF6B00; margin: 20px 0 10px;">Wash & Detail</h3>
         <div class="service-card" onclick="handleServiceClick('Exterior')">
@@ -170,21 +170,24 @@
             <p>We need some basic information to finalize your booking and send you updates.</p>
         </div>
 
-        <form>
+        <form id="contact-info-form" novalidate>
             <div class="form-row">
                 <div class="form-group-labeled">
                     <label>First Name <span class="required-star">*</span></label>
-                    <input type="text" placeholder="John">
+                    <input id="contact-first-name" name="firstName" type="text" placeholder="John">
+                    <div class="booking-field-message" id="first-name-error" aria-live="polite"></div>
                 </div>
                 <div class="form-group-labeled">
                     <label>Last Name <span class="required-star">*</span></label>
-                    <input type="text" placeholder="Doe">
+                    <input id="contact-last-name" name="lastName" type="text" placeholder="Doe">
+                    <div class="booking-field-message" id="last-name-error" aria-live="polite"></div>
                 </div>
             </div>
 
             <div class="form-group-full-labeled">
                 <label>Phone Number <span class="required-star">*</span></label>
-                <input type="tel" placeholder="(123) 456-7890">
+                <input id="contact-phone" name="phone" type="tel" placeholder="(123) 456-7890">
+                <div class="booking-field-message" id="contact-phone-error" aria-live="polite"></div>
                 <div class="helper-text">We'll send a verification code to confirm your number.</div>
             </div>
             
@@ -194,7 +197,9 @@
                 <div class="helper-text">Optional - for receipt delivery and future bookings.</div>
             </div>
 
-            <button type="button" class="btn-full btn-primary" style="margin-top: 20px;">Continue to Verification</button>
+            <button type="submit" class="btn-full btn-primary" style="margin-top: 20px;">Continue to Verification</button>
+
+            <p class="booking-form-status" id="contact-form-status" aria-live="polite"></p>
 
             <div class="required-footer-box">
                 <span class="required-star">*</span> Required fields
@@ -367,21 +372,21 @@
             <li><strong>Windows Ceramic Coated</strong></li>
             <li>Complimentary Interior Detail</li>
         </ul>
-        <p>Ceramic coatings is a liquid layer that chemically binds with your cars paint, offer superior protection against UV rays, Dirt, Oxidation, tree sap, Bird Droppings, chemicals and water.</p>
+        <p>Ceramic coating is a liquid layer that chemically binds with your car's paint, offering superior protection against UV rays, dirt, oxidation, tree sap, bird droppings, chemicals, and water.</p>
         <p>Provides enhanced rich gloss making your paint fully hydrophobic making cleaning easier and protecting from micro scratches.</p>
     </template>
     <template id="desc-Headlight">
-        <p>With Time UV rays, Road Debris and Oxidation can have your headlights looking yellow, cloudy and dim drastically reducing your visibility and look of your car! Restore your headlights today!</p>
+        <p>Over time, UV rays, road debris, and oxidation can leave your headlights looking yellow, cloudy, and dim, drastically reducing visibility and the look of your car. Restore your headlights today!</p>
         <p>Our Headlight treatment will remove the yellowing and clouding of your headlights restoring the original clear look while adding a UV Ray sealant making it weather resistant and protecting it from yellowing!</p>
     </template>
     <template id="desc-Engine">
-        <p>Cleaning your engine can help prevent corrosion and rust, improve cooling efficiency, easier leak detection and restoring original clean look.</p>
+        <p>Cleaning your engine can help prevent corrosion and rust, improve cooling efficiency, make leak detection easier, and restore its original clean look.</p>
     </template>
     <template id="desc-Windshield">
         <ul>
-            <li><strong>Clay Bar treatment:</strong> Removes embedded contaminants such as bugs, tar, deposits.</li>
-            <li>Makes glass dramatically clearer, smoother wiper performance, better rain beading.</li>
-            <li>Super hydrophobic layer repelling water, bugs and grime.</li>
+            <li><strong>Clay Bar treatment:</strong> Removes embedded contaminants such as bugs, tar, and deposits.</li>
+            <li>Makes glass dramatically clearer with smoother wiper performance and better rain beading.</li>
+            <li>Super hydrophobic layer that repels water, bugs, and grime.</li>
             <li>Improved visibility in the rain.</li>
         </ul>
     </template>

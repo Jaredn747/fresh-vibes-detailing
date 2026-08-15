@@ -3,6 +3,8 @@
    ========================================= */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { scroll-behavior: smooth; }
+
 body {
     font-family: 'Montserrat', sans-serif;
     color: white;
@@ -215,15 +217,19 @@ footer { text-align: center; padding: 50px 20px; background: black; border-top: 
 
 @media screen and (max-width: 768px) {
     .top-bar { display: none; } 
-    .menu-toggle { display: flex; } 
+    .navbar { position: sticky; overflow: visible; }
+    .menu-toggle { display: flex; position: relative; z-index: 1201; } 
     .nav-links { 
-        display: none; flex-direction: column; width: 100%; position: absolute; top: 85px; left: 0; 
-        background: black; text-align: center; padding: 20px 0; border-bottom: 2px solid #40E0D0;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        display: flex; flex-direction: column; width: 320px; max-width: 78vw; height: 100vh;
+        position: fixed; top: 0; left: 0; right: auto; z-index: 1200;
+        background: black; text-align: left; padding: 90px 24px 24px;
+        border-right: 2px solid #40E0D0; box-shadow: 8px 0 24px rgba(0,0,0,0.55);
+        transform: translateX(-100%) !important; transform-origin: left center; will-change: transform;
+        transition: transform 0.35s ease-in-out;
     }
-    .nav-links.active { display: flex; }
-    .nav-links { gap: 0; }
-    .nav-links a { margin: 15px 0; font-size: 1.2rem; color: white; }
+    .nav-links.active { transform: translateX(0) !important; }
+    .nav-links { gap: 0; align-items: flex-start; }
+    .nav-links a { margin: 14px 0; font-size: 1.15rem; color: white; width: 100%; }
     .hero-container { flex-direction: column; gap: 40px; }
     .hero-text { text-align: center; width: 100%; }
     .hero-text h1 { font-size: 4rem; } 
@@ -279,6 +285,10 @@ body.booking-body {
     padding: 15px; border: 2px solid #ddd; border-radius: 5px; 
     font-family: 'Montserrat', sans-serif; font-size: 1rem; width: 100%; box-sizing: border-box;
 }
+.booking-container input.is-invalid, .booking-container select.is-invalid { border-color: #d93025; background: #fff5f5; }
+.booking-field-message { min-height: 18px; margin-top: 8px; color: #d93025; font-size: 0.85rem; font-weight: 700; }
+.booking-form-status { min-height: 22px; margin-top: 18px; color: #0f8a5f; font-weight: 800; text-align: center; }
+.booking-form-status.has-error { color: #d93025; }
 
 /* BUTTONS */
 .btn-back {

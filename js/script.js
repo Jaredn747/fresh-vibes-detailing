@@ -203,6 +203,70 @@ function handleQuoteFormSubmit(event) {
     event.target.reset();
 }
 
+function clearContactFormFeedback() {
+    const fields = [
+        { input: document.getElementById('contact-first-name'), messageEl: document.getElementById('first-name-error') },
+        { input: document.getElementById('contact-last-name'), messageEl: document.getElementById('last-name-error') },
+        { input: document.getElementById('contact-phone'), messageEl: document.getElementById('contact-phone-error') }
+    ];
+
+    fields.forEach(function(field) {
+        setFieldState(field.input, field.messageEl, '');
+    });
+
+    const status = document.getElementById('contact-form-status');
+    if (status) {
+        status.textContent = '';
+        status.classList.remove('has-error');
+    }
+}
+
+function handleContactInfoSubmit(event) {
+    event.preventDefault();
+
+    const firstNameInput = document.getElementById('contact-first-name');
+    const lastNameInput = document.getElementById('contact-last-name');
+    const phoneInput = document.getElementById('contact-phone');
+    const firstNameError = document.getElementById('first-name-error');
+    const lastNameError = document.getElementById('last-name-error');
+    const phoneError = document.getElementById('contact-phone-error');
+    const status = document.getElementById('contact-form-status');
+
+    let isFormValid = true;
+
+    clearContactFormFeedback();
+
+    if (!firstNameInput.value.trim()) {
+        setFieldState(firstNameInput, firstNameError, 'First name is required.');
+        isFormValid = false;
+    }
+
+    if (!lastNameInput.value.trim()) {
+        setFieldState(lastNameInput, lastNameError, 'Last name is required.');
+        isFormValid = false;
+    }
+
+    if (!isValidPhoneNumber(phoneInput.value.trim())) {
+        setFieldState(phoneInput, phoneError, 'Please enter a valid phone number.');
+        isFormValid = false;
+    }
+
+    if (!isFormValid) {
+        if (status) {
+            status.textContent = 'Please fix the highlighted fields before continuing.';
+            status.classList.add('has-error');
+        }
+        return;
+    }
+
+    if (status) {
+        status.textContent = 'Looks good. Moving you to the next step.';
+        status.classList.remove('has-error');
+    }
+
+    event.target.reset();
+}
+
 // 3. PAGE LOAD
 window.onload = function() {
     const makeSelect = document.getElementById('vehicleMake');
@@ -351,5 +415,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const quoteForm = document.getElementById('quote-form');
     if (quoteForm) {
         quoteForm.addEventListener('submit', handleQuoteFormSubmit);
+    }
+
+    const contactInfoForm = document.getElementById('contact-info-form');
+    if (contactInfoForm) {
+        contactInfoForm.addEventListener('submit', handleContactInfoSubmit);
     }
 });

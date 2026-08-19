@@ -1,0 +1,57 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - testing
+    paths:
+      - 'server/**'
+  pull_request:
+    branches:
+      - testing
+    paths:
+      - 'server/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-backend:
+    name: Verify backend server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Start server and verify health
+        run: |
+          set -euo pipefail
+
+          node server.js > server.log 2>&1 &
+          server_pid=$!
+
+          cleanup() {
+            kill "$server_pid" >/dev/null 2>&1 || true
+          }
+
+          trap cleanup EXIT
+
+          sleep 2
+          curl --fail --silent --show-error http://localhost:5000/api/health
+
+          kill "$server_pid"
+          wait "$server_pid" 2>/dev/null || true

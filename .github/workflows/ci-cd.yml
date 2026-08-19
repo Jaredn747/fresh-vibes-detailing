@@ -4,9 +4,21 @@ on:
   push:
     branches:
       - testing
+    paths:
+      - 'index.html'
+      - 'booking.html'
+      - 'gallery.html'
+      - 'css/**'
+      - 'js/**'
   pull_request:
     branches:
       - testing
+    paths:
+      - 'index.html'
+      - 'booking.html'
+      - 'gallery.html'
+      - 'css/**'
+      - 'js/**'
   workflow_dispatch:
 
 permissions:

@@ -19,15 +19,15 @@ const serviceDetails = {
     // --- WASH & INTERIOR ---
     "Exterior": {
         title: "Maintenance Wash", 
-        price: "$60.00+", 
+        price: "$75.00+",
         duration: "1hr",
-        shortDesc: "PH neutral wash, deionized water, spray wax, tire shine."
+        shortDesc: "PH neutral wash, deionized water, spray wax, tire shine. Sedan/coupe pricing starts at $75."
     },
     "Interior": {
-        title: "Maintenance Interior Detail", 
+        title: "Basic Interior Detail",
         price: "$150.00+", 
-        duration: "2.5hr",
-        shortDesc: "Deep vacuum, steam cleaning, plastics scrubbed."
+        duration: "2-4hr",
+        shortDesc: "Deep vacuum, steam cleaning, plastics scrubbed, and light upholstery spot cleaning."
     },
     "Full": {
         title: "Full Interior Detail", 
@@ -79,7 +79,7 @@ const serviceDetails = {
     // --- ADD-ONS / SPECIALTY ---
     "Headlight": {
         title: "Headlight Restoration", 
-        price: "$125.00+", 
+        price: "$100.00+",
         duration: "1hr",
         shortDesc: "Sanding & polishing. UV sealant."
     },
@@ -91,7 +91,7 @@ const serviceDetails = {
     },
     "Windshield": {
         title: "Windshield Ceramic Coating", 
-        price: "$100.00+", 
+        price: "$125.00+",
         duration: "45m",
         shortDesc: "Hydrophobic layer for glass."
     },

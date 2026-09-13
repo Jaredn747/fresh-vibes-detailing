@@ -389,9 +389,7 @@ body.booking-body {
 
 @media (max-width: 600px) { .booking-container { padding: 30px 20px; } .form-row { flex-direction: column; gap: 15px; } }
 
-/* ============================================================
-   BOOKING PAGE STYLES (Added to bottom to protect Home Page)
-   ============================================================ */
+
 
 /* 1. Page Background for Booking.html */
 body.booking-body {

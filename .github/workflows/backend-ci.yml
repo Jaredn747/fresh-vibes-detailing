@@ -2,7 +2,8 @@ name: Backend CI
 
 on:
   push:
-    branches:
+    branches:  #before merging into main make sure to add the branch
+      - main
       - testing
     paths:
       - 'server/**'

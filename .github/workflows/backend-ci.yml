@@ -2,19 +2,7 @@ name: Backend CI
 
 on:
   push:
-    branches:  #before merging into main make sure to add the branch
-      - main
-      - server
-      - testing
-    paths:
-      - 'server/**'
   pull_request:
-    branches:
-      - main
-      - server
-      - testing
-    paths:
-      - 'server/**'
   workflow_dispatch:
 
 permissions:

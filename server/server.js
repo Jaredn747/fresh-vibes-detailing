@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
@@ -16,11 +17,16 @@ app.get('/api/health', (req, res) => {
 	res.json({ status: 'ok' });
 });
 
+mongoose.connect(process.env.MONGODB_URI)
+	.then(() => {
+		console.log('Connected to MongoDB');
+	})
+	.catch((error) => {
+		console.error('MongoDB connection error:', error);
+	});
+
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
 });
 
 module.exports = app;
-
-
-// this is a test 

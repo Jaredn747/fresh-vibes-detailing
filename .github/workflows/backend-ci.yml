@@ -33,7 +33,7 @@ jobs:
         run: npm test
 
       - name: Start server and verify health
-        run: 
+        run: |
           set -euo pipefail
 
           node server.js > server.log 2>&1 &

@@ -122,6 +122,14 @@ const serviceDetails = {
 };
 
 let currentServiceSelection = "";
+const bookingData = {
+    stains: false,
+    petHair: false
+};
+const conditionAnswers = {
+    stains: false,
+    petHair: false
+};
 
 function isValidPhoneNumber(phone) {
     const digitsOnly = phone.replace(/\D/g, '');
@@ -167,6 +175,7 @@ function handleQuoteFormSubmit(event) {
     const phoneError = document.getElementById('phone-error');
     const serviceError = document.getElementById('service-error');
     const status = document.getElementById('quote-form-status');
+    const submitButton = event.target.querySelector('button[type="submit"]');
 
     let isFormValid = true;
 
@@ -195,12 +204,46 @@ function handleQuoteFormSubmit(event) {
         return;
     }
 
-    if (status) {
-        status.textContent = "We'll get back to you within 30 minutes!";
-        status.classList.remove('has-error');
+    const originalButtonText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
     }
 
-    event.target.reset();
+    fetch('http://localhost:5000/api/quotes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: nameInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            serviceType: serviceSelect.value
+        })
+    })
+        .then(function(response) {
+            if (response.status !== 201) {
+                throw new Error('Quote request failed.');
+            }
+
+            if (status) {
+                status.textContent = "We'll get back to you within 30 minutes!";
+                status.classList.remove('has-error');
+            }
+            event.target.reset();
+        })
+        .catch(function() {
+            if (status) {
+                status.textContent = 'Something went wrong. Please try again.';
+                status.classList.add('has-error');
+            }
+        })
+        .finally(function() {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
 }
 
 function clearContactFormFeedback() {
@@ -227,10 +270,12 @@ function handleContactInfoSubmit(event) {
     const firstNameInput = document.getElementById('contact-first-name');
     const lastNameInput = document.getElementById('contact-last-name');
     const phoneInput = document.getElementById('contact-phone');
+    const emailInput = event.target.querySelector('input[type="email"]');
     const firstNameError = document.getElementById('first-name-error');
     const lastNameError = document.getElementById('last-name-error');
     const phoneError = document.getElementById('contact-phone-error');
     const status = document.getElementById('contact-form-status');
+    const submitButton = event.target.querySelector('button[type="submit"]');
 
     let isFormValid = true;
 
@@ -259,12 +304,47 @@ function handleContactInfoSubmit(event) {
         return;
     }
 
-    if (status) {
-        status.textContent = 'Looks good. Moving you to the next step.';
-        status.classList.remove('has-error');
+    bookingData.firstName = firstNameInput.value.trim();
+    bookingData.lastName = lastNameInput.value.trim();
+    bookingData.phone = phoneInput.value.trim();
+    bookingData.email = emailInput ? emailInput.value.trim() : '';
+
+    const originalButtonText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
     }
 
-    event.target.reset();
+    fetch('http://localhost:5000/api/bookings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bookingData)
+    })
+        .then(function(response) {
+            if (response.status !== 201) {
+                throw new Error('Booking request failed.');
+            }
+
+            if (status) {
+                status.textContent = 'Your booking request was sent successfully.';
+                status.classList.remove('has-error');
+            }
+            event.target.reset();
+        })
+        .catch(function() {
+            if (status) {
+                status.textContent = 'Something went wrong. Please try again.';
+                status.classList.add('has-error');
+            }
+        })
+        .finally(function() {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
 }
 
 // 3. PAGE LOAD
@@ -331,8 +411,19 @@ function switchSection(id) {
 function goToGrid() { switchSection('vehicle-grid-section'); }
 function goToLogin() { switchSection('login-section'); }
 function backToGrid() { switchSection('vehicle-grid-section'); }
-function goToDetails(vehicleType) { switchSection('vehicle-details-section'); }
-function goToServices() { switchSection('service-menu-section'); }
+function goToDetails(vehicleType) {
+    bookingData.vehicleType = vehicleType;
+    bookingData.stains = false;
+    bookingData.petHair = false;
+    conditionAnswers.stains = false;
+    conditionAnswers.petHair = false;
+    switchSection('vehicle-details-section');
+}
+function goToServices() {
+    bookingData.vehicleMake = document.getElementById('vehicleMake').value;
+    bookingData.vehicleModel = document.getElementById('vehicleModel').value;
+    switchSection('service-menu-section');
+}
 function backToDetails() { switchSection('vehicle-details-section'); }
 function backToServices() { switchSection('service-menu-section'); }
 function goToContactInfo() { switchSection('contact-info-section'); }
@@ -340,6 +431,12 @@ function backFromContact() { switchSection('final-service-section'); }
 
 function handleServiceClick(type) {
     currentServiceSelection = type; 
+    bookingData.serviceName = serviceDetails[type].title;
+    bookingData.servicePrice = serviceDetails[type].price;
+    bookingData.stains = false;
+    bookingData.petHair = false;
+    conditionAnswers.stains = false;
+    conditionAnswers.petHair = false;
     const needsCondition = ['Interior', 'Full', '3Month', '1Year', '3Year', '6Year'];
     if (needsCondition.includes(type)) {
         switchSection('condition-section');
@@ -352,11 +449,15 @@ function handleServiceClick(type) {
 function selectCondition(type, isYes, btnElement) {
     if (type === 'stains') document.getElementById('warn-stains').style.display = isYes ? 'block' : 'none';
     if (type === 'hair') document.getElementById('warn-hair').style.display = isYes ? 'block' : 'none';
+    if (type === 'stains') conditionAnswers.stains = isYes;
+    if (type === 'hair') conditionAnswers.petHair = isYes;
     btnElement.parentNode.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('selected'));
     btnElement.classList.add('selected');
 }
 
 function submitCondition() {
+    bookingData.stains = conditionAnswers.stains;
+    bookingData.petHair = conditionAnswers.petHair;
     populateFinalCard(currentServiceSelection);
     switchSection('final-service-section');
 }

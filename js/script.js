@@ -167,6 +167,7 @@ function handleQuoteFormSubmit(event) {
     const phoneError = document.getElementById('phone-error');
     const serviceError = document.getElementById('service-error');
     const status = document.getElementById('quote-form-status');
+    const submitButton = event.target.querySelector('button[type="submit"]');
 
     let isFormValid = true;
 
@@ -195,12 +196,46 @@ function handleQuoteFormSubmit(event) {
         return;
     }
 
-    if (status) {
-        status.textContent = "We'll get back to you within 30 minutes!";
-        status.classList.remove('has-error');
+    const originalButtonText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
     }
 
-    event.target.reset();
+    fetch('http://localhost:5000/api/quotes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: nameInput.value.trim(),
+            phone: phoneInput.value.trim(),
+            serviceType: serviceSelect.value
+        })
+    })
+        .then(function(response) {
+            if (response.status !== 201) {
+                throw new Error('Quote request failed.');
+            }
+
+            if (status) {
+                status.textContent = "We'll get back to you within 30 minutes!";
+                status.classList.remove('has-error');
+            }
+            event.target.reset();
+        })
+        .catch(function() {
+            if (status) {
+                status.textContent = 'Something went wrong. Please try again.';
+                status.classList.add('has-error');
+            }
+        })
+        .finally(function() {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
 }
 
 function clearContactFormFeedback() {

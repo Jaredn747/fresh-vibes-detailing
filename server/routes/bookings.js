@@ -1,5 +1,6 @@
 const express = require('express');
 const Booking = require('../models/booking');
+const { sendBookingNotification } = require('../utils/email');
 
 const router = express.Router();
 
@@ -48,6 +49,7 @@ router.post('/', async (req, res) => {
 			email
 		});
 		const savedBooking = await booking.save();
+		sendBookingNotification(savedBooking);
 		return res.status(201).json(savedBooking);
 	} catch (error) {
 		return res.status(500).json({ error: 'Failed to save booking.' });

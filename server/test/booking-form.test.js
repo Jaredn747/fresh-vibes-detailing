@@ -119,7 +119,7 @@ describe('booking form', () => {
 		let request;
 		const environment = createBookingFormEnvironment(async (url, options) => {
 			request = { url, options };
-			return { status: 201 };
+			return { ok: true, status: 201 };
 		});
 
 		environment.submit();
@@ -150,7 +150,7 @@ describe('booking form', () => {
 	});
 
 	it('shows an error and re-enables the form when booking submission fails', async () => {
-		const environment = createBookingFormEnvironment(async () => ({ status: 500 }));
+		const environment = createBookingFormEnvironment(async () => ({ ok: false, status: 500 }));
 
 		environment.submit();
 		await flushPromises();

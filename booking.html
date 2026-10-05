@@ -66,63 +66,64 @@
     <div id="service-menu-section" class="booking-container" style="display: none;">
         <button class="btn-back" onclick="backToDetails()"><i class="fa-solid fa-arrow-left"></i> Category</button>
         <p style="text-align:left;">Select a service.</p>
+        <p id="services-loading" class="services-loading-message" aria-live="polite">Loading services...</p>
 
         <h3 style="text-align:left; color:#FF6B00; margin: 20px 0 10px;">Wash & Detail</h3>
         <div class="service-card" onclick="handleServiceClick('Exterior')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-spray-can-sparkles"></i></div><div class="service-info"><h3>Maintenance Wash</h3><span>Starting at $75</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-spray-can-sparkles"></i></div><div class="service-info"><h3 data-service-key="Exterior" data-service-field="title">Maintenance Wash</h3><span>Starting at <span data-service-key="Exterior" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Interior')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-chair"></i></div><div class="service-info"><h3>Basic Interior Detail</h3><span>Starting at $150</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-chair"></i></div><div class="service-info"><h3 data-service-key="Interior" data-service-field="title">Basic Interior Detail</h3><span>Starting at <span data-service-key="Interior" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Full')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-car-side"></i></div><div class="service-info"><h3>Full Interior Detail</h3><span>Starting at $250</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-car-side"></i></div><div class="service-info"><h3 data-service-key="Full" data-service-field="title">Full Interior Detail</h3><span>Starting at <span data-service-key="Full" data-service-field="price">Loading...</span></span></div></div>
         </div>
 
         <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Protection Packages</h3>
         <div class="service-card" onclick="handleServiceClick('3Month')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-shield-halved"></i></div><div class="service-info"><h3>3-Month Ceramic Sealant</h3><span>Starting at $175</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-shield-halved"></i></div><div class="service-info"><h3 data-service-key="3Month" data-service-field="title">3-Month Ceramic Sealant</h3><span>Starting at <span data-service-key="3Month" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('6Month')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-droplet"></i></div><div class="service-info"><h3>6-Month Hybrid SiO2 Wax</h3><span>Starting at $250</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-droplet"></i></div><div class="service-info"><h3 data-service-key="6Month" data-service-field="title">6-Month Hybrid SiO2 Wax</h3><span>Starting at <span data-service-key="6Month" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('PolishWax')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="service-info"><h3>Polish & Wax (6 Month)</h3><span>Starting at $325</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="service-info"><h3 data-service-key="PolishWax" data-service-field="title">Polish & Wax (6 Month)</h3><span>Starting at <span data-service-key="PolishWax" data-service-field="price">Loading...</span></span></div></div>
         </div>
 
         <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Ceramic Coatings</h3>
         <div class="service-card" onclick="handleServiceClick('1Year')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gem"></i></div><div class="service-info"><h3>1 Year Ceramic Coating</h3><span>Starting at $600</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gem"></i></div><div class="service-info"><h3 data-service-key="1Year" data-service-field="title">1 Year Ceramic Coating</h3><span>Starting at <span data-service-key="1Year" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('3Year')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-diamond"></i></div><div class="service-info"><h3>3 Year Ceramic Coating</h3><span>Starting at $800</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-diamond"></i></div><div class="service-info"><h3 data-service-key="3Year" data-service-field="title">3 Year Ceramic Coating</h3><span>Starting at <span data-service-key="3Year" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('6Year')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-crown"></i></div><div class="service-info"><h3>6 Year Ceramic Coating</h3><span>Starting at $1200</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-crown"></i></div><div class="service-info"><h3 data-service-key="6Year" data-service-field="title">6 Year Ceramic Coating</h3><span>Starting at <span data-service-key="6Year" data-service-field="price">Loading...</span></span></div></div>
         </div>
 
         <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Specialty Services</h3>
         <div class="service-card" onclick="handleServiceClick('Headlight')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-regular fa-lightbulb"></i></div><div class="service-info"><h3>Headlight Restoration</h3><span>Starting at $100</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-regular fa-lightbulb"></i></div><div class="service-info"><h3 data-service-key="Headlight" data-service-field="title">Headlight Restoration</h3><span>Starting at <span data-service-key="Headlight" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Engine')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gear"></i></div><div class="service-info"><h3>Engine Bay Cleaning</h3><span>Starting at $100</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-gear"></i></div><div class="service-info"><h3 data-service-key="Engine" data-service-field="title">Engine Bay Cleaning</h3><span>Starting at <span data-service-key="Engine" data-service-field="price">Loading...</span></span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Windshield')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wind"></i></div><div class="service-info"><h3>Windshield Ceramic</h3><span>Starting at $125</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-wind"></i></div><div class="service-info"><h3 data-service-key="Windshield" data-service-field="title">Windshield Ceramic</h3><span>Starting at <span data-service-key="Windshield" data-service-field="price">Loading...</span></span></div></div>
         </div>
         
         <h3 style="text-align:left; color:#FF6B00; margin: 30px 0 10px;">Additional Services</h3>
         <div class="service-card" onclick="handleServiceClick('Tint')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-layer-group"></i></div><div class="service-info"><h3>Window Tinting</h3><span>Call for Price</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-layer-group"></i></div><div class="service-info"><h3 data-service-key="Tint" data-service-field="title">Window Tinting</h3><span data-service-key="Tint" data-service-field="price">Loading...</span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Audio')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-music"></i></div><div class="service-info"><h3>Car Audio/Screen</h3><span>Call for Price</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-music"></i></div><div class="service-info"><h3 data-service-key="Audio" data-service-field="title">Car Audio/Screen</h3><span data-service-key="Audio" data-service-field="price">Loading...</span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Wrap')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-palette"></i></div><div class="service-info"><h3>Car Wrapping</h3><span>Call for Price</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-palette"></i></div><div class="service-info"><h3 data-service-key="Wrap" data-service-field="title">Car Wrapping</h3><span data-service-key="Wrap" data-service-field="price">Loading...</span></div></div>
         </div>
         <div class="service-card" onclick="handleServiceClick('Upholstery')">
-            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-couch"></i></div><div class="service-info"><h3>Upholstery Repair</h3><span>Call for Price</span></div></div>
+            <div class="service-left"><div class="service-icon-box"><i class="fa-solid fa-couch"></i></div><div class="service-info"><h3 data-service-key="Upholstery" data-service-field="title">Upholstery Repair</h3><span data-service-key="Upholstery" data-service-field="price">Loading...</span></div></div>
         </div>
     </div>
 

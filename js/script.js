@@ -14,6 +14,28 @@ const carData = {
     "Toyota": ["4Runner", "Camry", "Corolla", "Highlander", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra"]
 };
 
+const apiBaseUrls = ['http://localhost:5001', 'http://localhost:5000'];
+
+async function fetchApi(path, options) {
+    let lastResponse;
+
+    for (const baseUrl of apiBaseUrls) {
+        try {
+            const response = await fetch(baseUrl + path, options);
+            if (response.status !== 403) {
+                return response;
+            }
+            lastResponse = response;
+        } catch (error) {
+            if (baseUrl === apiBaseUrls[apiBaseUrls.length - 1]) {
+                throw error;
+            }
+        }
+    }
+
+    return lastResponse;
+}
+
 // 2. SERVICE DATABASE FALLBACK
 const fallbackServiceDetails = {
     // --- WASH & INTERIOR ---
@@ -174,7 +196,7 @@ async function loadServices() {
     setServicesLoading(true);
 
     try {
-        const response = await fetch('http://localhost:5000/api/services');
+        const response = await fetchApi('/api/services');
         if (!response.ok) {
             throw new Error(`Services request failed with status ${response.status}.`);
         }
@@ -278,7 +300,7 @@ function handleQuoteFormSubmit(event) {
         submitButton.textContent = 'Sending...';
     }
 
-    fetch('http://localhost:5000/api/quotes', {
+    fetchApi('/api/quotes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -383,7 +405,7 @@ function handleContactInfoSubmit(event) {
         submitButton.textContent = 'Sending...';
     }
 
-    fetch('http://localhost:5000/api/bookings', {
+    fetchApi('/api/bookings', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

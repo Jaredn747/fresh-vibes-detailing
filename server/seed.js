@@ -131,22 +131,38 @@ function getTemplateDescription(serviceKey, bookingHtml) {
 	return match[1].trim();
 }
 
-async function seedServices() {
+function buildServices() {
 	const bookingHtml = fs.readFileSync(path.join(__dirname, '..', 'booking.html'), 'utf8');
-	const services = serviceDetails.map((service) => ({
+
+	return serviceDetails.map((service) => ({
 		...service,
 		fullDescription: getTemplateDescription(service.serviceKey, bookingHtml)
 	}));
-
-	await mongoose.connect(process.env.MONGODB_URI);
-	await Service.deleteMany({});
-	await Service.insertMany(services);
-	console.log(`Seeded ${services.length} services successfully.`);
 }
 
-seedServices()
-	.catch((error) => {
-		console.error('Failed to seed services:', error);
-		process.exitCode = 1;
-	})
-	.finally(() => mongoose.disconnect());
+async function seedServices() {
+	if (!process.env.MONGODB_URI) {
+		throw new Error('MONGODB_URI is not configured.');
+	}
+
+	const services = buildServices();
+	await mongoose.connect(process.env.MONGODB_URI);
+
+	try {
+		await Service.deleteMany({});
+		await Service.insertMany(services);
+		console.log(`Seeded ${services.length} services successfully.`);
+	} finally {
+		await mongoose.disconnect();
+	}
+}
+
+module.exports = { buildServices, getTemplateDescription, seedServices, serviceDetails };
+
+if (require.main === module) {
+	seedServices()
+		.catch((error) => {
+			console.error('Failed to seed services:', error);
+			process.exitCode = 1;
+		});
+}

@@ -4,7 +4,7 @@
   "description": "The backend for Freshy Vibes",
   "main": "index.js",
   "scripts": {
-    "test": "node --test test/routes.test.js test/quote-form.test.js test/booking-form.test.js test/email.test.js"
+    "test": "node --test test/routes.test.js test/quote-form.test.js test/booking-form.test.js test/email.test.js test/seed.test.js"
   },
   "keywords": [],
   "author": "Jared Nepomuceno",

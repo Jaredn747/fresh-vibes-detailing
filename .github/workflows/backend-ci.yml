@@ -46,7 +46,7 @@ jobs:
           trap cleanup EXIT
 
           sleep 2
-          curl --fail --silent --show-error http://localhost:5000/api/health
+          curl --fail --silent --show-error http://localhost:5001/api/health
 
           kill "$server_pid"
           wait "$server_pid" 2>/dev/null || true

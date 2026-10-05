@@ -12,6 +12,9 @@ jobs:
   verify-backend:
     name: Verify backend server
     runs-on: ubuntu-latest
+    env:
+      PORT: 5001
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
     defaults:
       run:
         working-directory: server

@@ -14,8 +14,8 @@ const carData = {
     "Toyota": ["4Runner", "Camry", "Corolla", "Highlander", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra"]
 };
 
-// 2. SERVICE DATABASE (UPDATED TEXT)
-const serviceDetails = {
+// 2. SERVICE DATABASE FALLBACK
+const fallbackServiceDetails = {
     // --- WASH & INTERIOR ---
     "Exterior": {
         title: "Maintenance Wash", 
@@ -120,6 +120,74 @@ const serviceDetails = {
         shortDesc: "Repair rips and tears."
     }
 };
+
+let serviceDetails = { ...fallbackServiceDetails };
+
+function setServicesLoading(isLoading) {
+    const bookingServices = document.getElementById('service-menu-section');
+    const loadingMessage = document.getElementById('services-loading');
+    if (bookingServices) {
+        bookingServices.classList.toggle('services-loading', isLoading);
+        bookingServices.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+    }
+    if (loadingMessage) {
+        loadingMessage.hidden = !isLoading;
+    }
+}
+
+function updateServiceContent() {
+    document.querySelectorAll('[data-service-key]').forEach(function (element) {
+        const service = serviceDetails[element.dataset.serviceKey];
+        if (!service) return;
+
+        if (element.dataset.serviceField === 'title') {
+            element.textContent = service.title;
+        } else if (element.dataset.serviceField === 'price') {
+            element.textContent = service.price;
+        } else if (element.dataset.serviceField === 'short-description') {
+            element.textContent = service.shortDesc;
+        }
+    });
+}
+
+function mapServices(services) {
+    if (!Array.isArray(services) || services.length === 0) {
+        throw new Error('Services API returned no services.');
+    }
+
+    return services.reduce(function (mappedServices, service) {
+        if (!service.serviceKey || !service.title || !service.price || !service.duration) {
+            throw new Error('Services API returned an invalid service.');
+        }
+
+        mappedServices[service.serviceKey] = {
+            title: service.title,
+            price: service.price,
+            duration: service.duration,
+            shortDesc: service.shortDescription || ''
+        };
+        return mappedServices;
+    }, {});
+}
+
+async function loadServices() {
+    setServicesLoading(true);
+
+    try {
+        const response = await fetch('http://localhost:5000/api/services');
+        if (!response.ok) {
+            throw new Error(`Services request failed with status ${response.status}.`);
+        }
+
+        serviceDetails = mapServices(await response.json());
+    } catch (error) {
+        console.error('Failed to load services. Using fallback service data.', error);
+        serviceDetails = { ...fallbackServiceDetails };
+    } finally {
+        updateServiceContent();
+        setServicesLoading(false);
+    }
+}
 
 let currentServiceSelection = "";
 const bookingData = {
@@ -491,6 +559,8 @@ function closeDetailsModal() { document.getElementById('details-modal').style.di
 
 // Mobile hamburger menu: toggle `.nav-links.active` when `#mobile-menu` is clicked
 document.addEventListener('DOMContentLoaded', function () {
+    loadServices();
+
     // Toggle handler for one or more #mobile-menu buttons (present on multiple pages)
     document.querySelectorAll('#mobile-menu').forEach(function(toggle) {
         toggle.addEventListener('click', function () {

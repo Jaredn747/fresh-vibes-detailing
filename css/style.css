@@ -101,6 +101,13 @@ h1, h2, h3, .logo-text, .price, .footer-phone, .step-icon {
 .menu-toggle { display: none; flex-direction: column; cursor: pointer; }
 .menu-toggle .bar { width: 25px; height: 3px; background-color: white; margin: 4px 0; }
 
+.services-loading-message {
+    color: #40E0D0;
+    font-weight: 700;
+    text-align: left;
+}
+.services-loading .service-card { visibility: hidden; }
+
 /* =========================================
    4. HERO & CONTENT
    ========================================= */
@@ -526,4 +533,3 @@ body.booking-body {
 @media (max-width: 600px) {
     .split-row { flex-direction: column; gap: 15px; }
 }
-

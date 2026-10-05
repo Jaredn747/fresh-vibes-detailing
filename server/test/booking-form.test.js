@@ -128,7 +128,7 @@ describe('booking form', () => {
 		await flushPromises();
 
 		assert.equal(environment.wasPrevented, true);
-		assert.equal(request.url, 'http://localhost:5001/api/bookings');
+		assert.equal(request.url, 'http://localhost:5000/api/bookings');
 		assert.equal(request.options.method, 'POST');
 		assert.equal(request.options.headers['Content-Type'], 'application/json');
 		assert.deepEqual(JSON.parse(request.options.body), {

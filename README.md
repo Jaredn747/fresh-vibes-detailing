@@ -1,3 +1,99 @@
+# Fresh Vibes Detailing
+
+A website and booking-request API for Fresh Vibes Mobile Detailing, serving the Orange County area. Customers can browse detailing packages, view the gallery, request a quote, and submit their vehicle and contact information for a booking.
+
+The frontend uses plain HTML, CSS, and JavaScript. A separate Express API stores requests and service information in MongoDB and sends email notifications to the business.
+
+## Features
+
+- Responsive home page, mobile navigation, service packages, and photo gallery.
+- Quote request form with field validation and submission feedback.
+- Guest booking flow with vehicle category, make, model, service selection, and condition questions.
+- A catalog of 16 services covering washes, interior detailing, paint protection, ceramic coatings, and specialty services.
+- Service data loaded from the API, with built-in fallback data when loading fails.
+- MongoDB storage for quotes, bookings, and services.
+- Email notifications for new quote and booking requests through Nodemailer’s Gmail transport.
+- Automated tests and GitHub Actions workflows for backend checks and static-site deployment.
+
+## Tech stack
+
+| Layer | Technologies |
+| --- | --- |
+| Frontend | HTML5, CSS3, vanilla JavaScript |
+| Styling assets | Google Fonts, Font Awesome |
+| API | Node.js, Express, CORS, dotenv |
+| Database | MongoDB, Mongoose |
+| Email | Nodemailer |
+| Tests | Node.js built-in test runner |
+| CI and hosting | GitHub Actions, GitHub Pages for the frontend |
+
+## Project structure
+
+```text
+.
+├── index.html                 # Home page and quote form
+├── booking.html               # Booking flow and service description templates
+├── gallery.html               # Photo gallery
+├── css/
+│   └── style.css               # Shared styles and responsive layouts
+├── js/
+│   └── script.js               # Navigation, forms, booking state, and API requests
+├── server/
+│   ├── package.json            # Backend dependencies and test command
+│   ├── server.js               # Express entry point and database connection
+│   ├── seed.js                 # Service catalog seed utility
+│   ├── models/                 # Booking, quote, and service schemas
+│   ├── routes/                 # Booking, quote, and service endpoints
+│   ├── test/                   # API, form, email, and service-data tests
+│   └── utils/
+│       └── email.js            # Business notification emails
+└── .github/workflows/
+    ├── backend-ci.yml          # Backend tests and HTTP health check
+    └── ci-cd.yml               # Static-site validation and Pages deployment
+```
+
+## Local setup
+
+### Prerequisites
+
+- Node.js and npm. The included CI workflows use Node.js 20.
+- A running MongoDB instance or a MongoDB connection URI.
+- Python 3 for the static-server command below, or another local static server.
+- Gmail credentials if you want to test email delivery.
+
+### 1. Install backend dependencies
+
+From the repository root:
+
+```sh
+cd server
+npm install
+```
+
+### 2. Configure the environment
+
+Create `server/.env`:
+
+```dotenv
+PORT=5001
+MONGODB_URI=mongodb://127.0.0.1:27017/fresh-vibes-detailing
+
+# Configure these to enable business notification emails.
+EMAIL_USER=your-account@gmail.com
+EMAIL_PASS=your-gmail-app-password
+NOTIFICATION_EMAIL=your-notification-inbox@example.com
+```
+
+| Variable | Purpose |
+| --- | --- |
+| `PORT` | API port. Defaults to `5000`; this setup uses `5001`. |
+| `MONGODB_URI` | Database connection string, required for seeding and database-backed endpoints. |
+| `EMAIL_USER` | Gmail account used to send notifications. |
+| `EMAIL_PASS` | Credential used to authenticate the Gmail transport. |
+| `NOTIFICATION_EMAIL` | Business inbox that receives quote and booking notifications. |
+
+Keep `.env` files out of version control and published site artifacts. Add `server/.env` and `server/node_modules/` to the root `.gitignore` if they are not already ignored.
+
 Run backend commands from `server/` so dotenv loads the correct `.env` file. Requests are saved before notification emails are sent; email failures are logged and do not undo a saved request.
 
 ### 3. Seed the service catalog

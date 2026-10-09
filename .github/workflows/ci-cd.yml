@@ -58,6 +58,16 @@ jobs:
           grep -q '<footer id="contact">' gallery.html
           grep -q '<div id="contact-info-form"' booking.html || grep -q '<form id="contact-info-form"' booking.html
 
+      - name: Set up Pages
+        if: github.event_name == 'push'
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
   deploy:
     name: Deploy to GitHub Pages
     needs: validate

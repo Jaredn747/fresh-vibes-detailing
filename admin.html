@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Fresh Vibes Detailing</title>
+    <title>Admin - Fresh Vibes Detailing</title>
     <link href="https://fonts.googleapis.com/css2?family=Modak&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -34,9 +34,15 @@
         </section>
 
         <section id="dashboard-section" class="admin-dashboard" hidden aria-labelledby="dashboard-title">
-            <div class="icon-circle-large" aria-hidden="true">✓</div>
-            <h2 id="dashboard-title" class="section-heading">Admin Dashboard</h2>
-            <p class="booking-subtitle">You are logged in successfully.</p>
+            <div class="admin-dashboard-header">
+                <div>
+                    <h2 id="dashboard-title" class="section-heading">Service Management</h2>
+                    <p class="booking-subtitle">Manage the services shown to customers.</p>
+                </div>
+                <button id="admin-logout" class="btn-booking-white" type="button">Log Out</button>
+            </div>
+            <p id="services-status" class="admin-status" aria-live="polite">Loading services...</p>
+            <div id="admin-services-list" class="admin-services-list"></div>
         </section>
     </main>
 

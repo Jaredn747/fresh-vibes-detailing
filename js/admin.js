@@ -11,7 +11,7 @@ async function submitAdminLogin(password) {
                 body: JSON.stringify({ password })
             });
 
-            if (response.status !== 403) {
+            if (response.status !== 404 && response.status !== 405 && response.status !== 501) {
                 return response;
             }
         } catch (error) {

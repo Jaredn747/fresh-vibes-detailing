@@ -520,9 +520,6 @@ body.booking-body {
     font-size: 1rem; color: #333; width: 100%; font-family: 'Montserrat', sans-serif;
 }
 .booking-input:focus { border-color: #FF6B00; outline: none; }
-.admin-status { min-height: 20px; margin: 12px 0; font-size: 0.85rem; font-weight: 700; }
-.admin-status.has-error { color: #d93025; }
-.admin-dashboard[hidden] { display: none; }
 
 .red-ast { color: #e53935; }
 .helper-text { font-size: 0.8rem; color: #888; margin-top: 5px; }

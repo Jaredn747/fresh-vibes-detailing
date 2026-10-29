@@ -1,13 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('node:path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+require('dotenv').config();
 
 const quoteRoutes = require('./routes/quotes');
 const bookingRoutes = require('./routes/bookings');
 const serviceRoutes = require('./routes/services');
-const adminRoutes = require('./routes/admin');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +15,6 @@ app.use(express.json());
 app.use('/api/quotes', quoteRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/services', serviceRoutes);
-app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
 	res.json({ message: 'Fresh Vibes API is running' });

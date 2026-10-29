@@ -4,18 +4,16 @@
   "description": "The backend for Freshy Vibes",
   "main": "index.js",
   "scripts": {
-    "test": "node --test test/routes.test.js test/quote-form.test.js test/booking-form.test.js test/admin-form.test.js test/email.test.js test/seed.test.js test/service-data.test.js"
+    "test": "node --test test/routes.test.js test/quote-form.test.js test/booking-form.test.js test/email.test.js test/seed.test.js test/service-data.test.js"
   },
   "keywords": [],
   "author": "Jared Nepomuceno",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.3",
     "nodemailer": "^10.0.13"
   }

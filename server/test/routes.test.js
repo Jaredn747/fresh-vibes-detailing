@@ -9,12 +9,14 @@ const Service = require('../models/service');
 const quoteRoutes = require('../routes/quotes');
 const bookingRoutes = require('../routes/bookings');
 const serviceRoutes = require('../routes/services');
+const adminRoutes = require('../routes/admin');
 
 const app = express();
 app.use(express.json());
 app.use('/api/quotes', quoteRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/admin', adminRoutes);
 
 let server;
 let port;
@@ -171,6 +173,43 @@ describe('service routes', () => {
 
 		assert.equal(response.status, 200);
 		assert.deepEqual(response.body, [sampleService]);
+	});
+
+	describe('admin routes', () => {
+		const originalPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+		const originalJwtSecret = process.env.JWT_SECRET;
+
+		before(() => {
+			process.env.ADMIN_PASSWORD_HASH = '$2b$10$2BEaGEdSdbfQPvmIVEW2j.F6CpDPnXkfCtya.hM4tR62jznARCt0q';
+			process.env.JWT_SECRET = 'test-jwt-secret';
+		});
+
+		after(() => {
+			process.env.ADMIN_PASSWORD_HASH = originalPasswordHash;
+			process.env.JWT_SECRET = originalJwtSecret;
+		});
+
+		it('returns a JWT for the correct password', async () => {
+			const response = await request('POST', '/api/admin/login', { password: '12345' });
+
+			assert.equal(response.status, 200);
+			assert.equal(typeof response.body.token, 'string');
+			assert.equal(response.body.token.split('.').length, 3);
+		});
+
+		it('returns 401 for an incorrect password', async () => {
+			const response = await request('POST', '/api/admin/login', { password: 'incorrect' });
+
+			assert.equal(response.status, 401);
+			assert.match(response.body.error, /invalid/i);
+		});
+
+		it('returns 400 when the password is missing', async () => {
+			const response = await request('POST', '/api/admin/login', {});
+
+			assert.equal(response.status, 400);
+			assert.match(response.body.error, /required/i);
+		});
 	});
 
 	it('updates a service by id', async () => {

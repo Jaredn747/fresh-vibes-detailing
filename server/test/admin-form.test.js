@@ -8,7 +8,6 @@ const script = fs.readFileSync(path.join(__dirname, '../../js/admin.js'), 'utf8'
 
 function createAdminFormEnvironment(fetchImplementation) {
 	let submitHandler;
-	let logoutHandler;
 	const submitButton = { disabled: false };
 	const passwordInput = {
 		value: 'admin-password',
@@ -16,62 +15,35 @@ function createAdminFormEnvironment(fetchImplementation) {
 		focus() { this.focusCalled = true; }
 	};
 	const errorMessage = { textContent: '' };
-	const servicesStatus = { textContent: '' };
-	const serviceNodes = [];
 	const loginSection = { hidden: false };
 	const dashboardSection = { hidden: true };
-	const logoutButton = {
-		addEventListener(event, handler) {
-			if (event === 'click') logoutHandler = handler;
-		}
-	};
-	const servicesList = {
-		replaceChildren() { serviceNodes.length = 0; },
-		append(node) { serviceNodes.push(node); }
-	};
 	const form = {
 		addEventListener(event, handler) {
 			if (event === 'submit') submitHandler = handler;
 		},
 		querySelector(selector) {
 			return selector === 'button[type="submit"]' ? submitButton : null;
-		},
-	};
-	const documentElements = {
-		'admin-login-form': form,
-		'admin-password': passwordInput,
-		'admin-login-error': errorMessage,
-		'login-section': loginSection,
-		'dashboard-section': dashboardSection,
-		'admin-logout': logoutButton,
-		'services-status': servicesStatus,
-		'admin-services-list': servicesList
+		}
 	};
 	const storedItems = new Map();
 	const context = {
 		console,
 		fetch: fetchImplementation,
 		localStorage: {
-			setItem(key, value) { storedItems.set(key, value); },
-			getItem(key) { return storedItems.get(key); },
-			removeItem(key) { storedItems.delete(key); }
+			setItem(key, value) { storedItems.set(key, value); }
 		},
-		documentElement: {},
 		document: {
 			addEventListener(event, handler) {
 				if (event === 'DOMContentLoaded') handler();
 			},
 			getElementById(id) {
-				return documentElements[id];
-			},
-			createElement() {
-				const node = {
-					className: '',
-					textContent: '',
-					append() {},
-				};
-				serviceNodes.push(node);
-				return node;
+				return {
+					'admin-login-form': form,
+					'admin-password': passwordInput,
+					'admin-login-error': errorMessage,
+					'login-section': loginSection,
+					'dashboard-section': dashboardSection
+				}[id];
 			}
 		}
 	};
@@ -85,15 +57,10 @@ function createAdminFormEnvironment(fetchImplementation) {
 		passwordInput,
 		submitButton,
 		get storedToken() { return storedItems.get('adminToken'); },
-		get servicesStatus() { return servicesStatus.textContent; },
-		get serviceNodes() { return serviceNodes; },
 		submit() {
 			return submitHandler({
 				preventDefault() {},
 			});
-		},
-		logout() {
-			return logoutHandler();
 		}
 	};
 }
@@ -103,9 +70,6 @@ describe('admin login form', () => {
 		const requests = [];
 		const environment = createAdminFormEnvironment(async (url) => {
 			requests.push(url);
-			if (url.endsWith('/api/services')) {
-				return { ok: true, status: 200, json: async () => [] };
-			}
 			if (url === '/api/admin/login') {
 				return {
 					status: 501,
@@ -125,30 +89,16 @@ describe('admin login form', () => {
 
 		assert.deepEqual(requests, [
 			'/api/admin/login',
-			'http://localhost:5001/api/admin/login',
-			'/api/services'
+			'http://localhost:5001/api/admin/login'
 		]);
 		assert.equal(environment.storedToken, 'test.jwt.token');
 		assert.equal(environment.dashboardSection.hidden, false);
 	});
 
 	it('stores the token and shows the dashboard after a successful login', async () => {
-		let loginRequest;
+		let request;
 		const environment = createAdminFormEnvironment(async (url, options) => {
-			if (url.endsWith('/api/services')) {
-				return {
-					ok: true,
-					status: 200,
-					json: async () => [{
-						title: 'Maintenance Wash',
-						price: '$75.00+',
-						duration: '1hr',
-						shortDescription: 'PH neutral wash.'
-					}]
-				};
-			}
-
-			loginRequest = { url, options };
+			request = { url, options };
 			return {
 				ok: true,
 				status: 200,
@@ -158,30 +108,13 @@ describe('admin login form', () => {
 
 		await environment.submit();
 
-		assert.equal(loginRequest.url, '/api/admin/login');
-		assert.equal(loginRequest.options.method, 'POST');
-		assert.deepEqual(JSON.parse(loginRequest.options.body), { password: 'admin-password' });
+		assert.equal(request.url, '/api/admin/login');
+		assert.equal(request.options.method, 'POST');
+		assert.deepEqual(JSON.parse(request.options.body), { password: 'admin-password' });
 		assert.equal(environment.storedToken, 'test.jwt.token');
 		assert.equal(environment.loginSection.hidden, true);
 		assert.equal(environment.dashboardSection.hidden, false);
-		assert.equal(environment.servicesStatus, '1 services loaded.');
 		assert.equal(environment.submitButton.disabled, false);
-	});
-
-	it('clears the token and returns to the login form when logging out', async () => {
-		const environment = createAdminFormEnvironment(async (url) => {
-			if (url.endsWith('/api/services')) {
-				return { ok: true, status: 200, json: async () => [] };
-			}
-			return { ok: true, status: 200, json: async () => ({ token: 'test.jwt.token' }) };
-		});
-
-		await environment.submit();
-		environment.logout();
-
-		assert.equal(environment.storedToken, undefined);
-		assert.equal(environment.loginSection.hidden, false);
-		assert.equal(environment.dashboardSection.hidden, true);
 	});
 
 	it('shows an error for an invalid login response', async () => {
